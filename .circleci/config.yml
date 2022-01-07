@@ -1,0 +1,48 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: cimg/node:17.3.0
+    working_directory: ~/repo
+    steps:
+      - checkout
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "package.json" }}
+          # fallback to using the latest cache if no exact match is found
+          - v1-dependencies-
+      - run: 
+          name: Install dependencies
+          command: npm install
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}
+      - run:
+          name: Running tests
+          command: npm test
+  deploy:
+    docker:
+      - image: cimg/node:17.3.0
+    steps:
+      - run:
+          name: AWS EC2 deploy
+          command: |
+            ssh -o StrictHostKeyChecking=no ubuntu@18.118.171.129 \
+            "echo Start deploy && \
+            cd ~/fogday && \
+            git pull && \
+            npm i && \
+            npm run frontend:build && \
+            pm2 stop build/server && \
+            pm2 start build/server && \
+            echo Deploy end"
+workflows:
+  version: 2
+  build-and-deploy:
+    jobs:
+      - build
+      - deploy:
+          requires:
+            - build
