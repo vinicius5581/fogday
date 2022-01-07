@@ -7,8 +7,7 @@
     "api:start": "node ./api/src/index.js",
     "api:dev": "nodemon ./api/src/index.js",
     "frontend:dev": "webpack --config webpack.config.js --mode development --watch",
-    "frontend:build": "webpack --config webpack.config.js --mode production",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "frontend:build": "webpack --config webpack.config.js --mode production"    
   },
   "author": "",
   "license": "ISC",
