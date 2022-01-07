@@ -19,27 +19,8 @@ jobs:
           paths:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
-  deploy:
-    docker:
-      - image: cimg/node:17.3.0
-    steps:
-      - run:
-          name: AWS EC2 deploy
-          command: |
-            ssh -i ${AWS_SECRET_ACCESS_KEY} ${EC2_HOST} \
-            "echo Start deploy && \
-            cd ~/fogday && \
-            git pull && \
-            npm i && \
-            npm run frontend:build && \
-            pm2 stop build/server && \
-            pm2 start build/server && \
-            echo Deploy end"
 workflows:
   version: 2
   build-and-deploy:
     jobs:
       - build
-      - deploy:
-          requires:
-            - build
