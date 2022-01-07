@@ -14,6 +14,7 @@ $ sudo apt-get install gcc g++ make
 $ git clone https://github.com/vinicius5581/fogday.git
 $ cd fogday
 $ npm install
+$ npm frontend:build
 $ sudo npm install pm2 -g
 $ pm2 start server/index.js
 ```
