@@ -26,7 +26,7 @@ jobs:
       - run:
           name: AWS EC2 deploy
           command: |
-            ssh -o StrictHostKeyChecking=no ubuntu@18.118.171.129 \
+            ssh -o StrictHostKeyChecking=no ubuntu@ec2-18-118-171-129.us-east-2.compute.amazonaws.com\
             "echo Start deploy && \
             cd ~/fogday && \
             git pull && \
