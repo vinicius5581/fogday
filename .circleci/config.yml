@@ -1,0 +1,13 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: cimg/node:17.3.0
+    steps:
+      - checkout
+      - run: node --version
+workflows:
+  version: 2
+  build-and-deploy:
+    jobs:
+      - build
